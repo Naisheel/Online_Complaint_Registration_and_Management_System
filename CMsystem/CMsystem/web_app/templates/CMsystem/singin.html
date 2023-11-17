@@ -1,4 +1,4 @@
-{% extends "GRsystem/index.html" %}
+{% extends "CMsystem/index.html" %}
 
 
 body {
@@ -46,7 +46,6 @@ padding-bottom: 40px;
             {% if user.is_authenticated %}
             <h3> You are already logged In. First logout,To switch account?</h3>
 
-            <!-- <a href="{% provider_login_url 'google' %}">Continue with google</a> -->
 
             {% endif %}
 
