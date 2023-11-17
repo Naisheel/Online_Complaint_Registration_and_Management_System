@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 'django.contrib.staticfiles',
+    # 'django.contrib.foo',
     'web_app'
 ]
 
@@ -83,7 +85,7 @@ DATABASES = {
 
         'USER': 'postgres',
 
-        'PASSWORD': 'Password',  
+        'PASSWORD': 'Mayank@2210',  
         # Password should be same as your postgresql password
         'HOST': 'localhost',
 
@@ -126,8 +128,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = "static/"
+MEDIA_URL = '/img/'
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    "D:\complaintsys\Online_Complaint_Registration_and_Management_System\CMsystem\CMsystem\static",
+]
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
