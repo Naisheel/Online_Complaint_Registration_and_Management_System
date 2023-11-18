@@ -15,7 +15,7 @@ padding-bottom: 40px;
 <div class="container">
     {% load static %}
     {% for message in messages %}
-    <div{% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
+    <div {% if message.tags %} class="alert alert-{{ message.tags }}" {% endif %}>
         <a class="close" data-dismiss="alert" href="#">&times;</a>
         {{ message }}
 </div>
