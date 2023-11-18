@@ -33,4 +33,9 @@ class UserRegisterForm(UserCreationForm):
 
         # A user was found with this as a username, raise an error.
         raise forms.ValidationError('This email address is already in use.')
-         
+
+
+class UserProfileform(forms.ModelForm):
+    class Meta:
+        model=Profile 
+        fields=('contact_number','Branch')
