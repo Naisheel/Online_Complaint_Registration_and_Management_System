@@ -7,3 +7,6 @@ def index(request):
 
 def aboutus(request):
     return render(request,"CMsystem/aboutus.html")
+
+def signin(request):
+    return render(request,"CMsystem/signin.html")
