@@ -40,8 +40,44 @@ padding-bottom: 40px;
             <br>
 
             <!-- google button -->
-
             {% load socialaccount %}
+
+            {% if user.is_authenticated %}
+            <h3> You are already logged In. First logout,To switch account?</h3>
+            {% else %}
+            <!-- <a href="{% provider_login_url 'google' %}">Continue with google</a> -->
+            <div class="row">
+              <div class="col-md-3">
+                <table>
+                  <tr>
+                    <td style="padding:0 15px 0 0;">
+                      <a class="btn btn-outline-dark " href= "{% provider_login_url 'google' %} "role="button"
+                        style="text-transform:none; width: 120px;">
+                        <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in"
+                          src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                        Login with Google
+                      </a>
+                    </td>
+      
+                    <td>
+                      <a href="{% provider_login_url 'github' %}" class="btn btn-outline-dark" role="button"
+                        style="text-transform:none; width: 120px;"> <img width="20px"
+                          style="margin-bottom:3px; margin-right:5px" alt="GitHub sign-in"
+                          src="https://cdn-icons-png.flaticon.com/512/25/25231.png">
+                        Login with GitHub
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+      
+              </div>
+            </div>
+            {% endif %}
+      
+            <br>
+      
+          </form>
+            <!-- {% load socialaccount %} -->
 
             {% if user.is_authenticated %}
             <h3> You are already logged In. First logout,To switch account?</h3>

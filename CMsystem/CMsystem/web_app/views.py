@@ -12,6 +12,9 @@ def index(request):
 def aboutus(request):
     return render(request,"CMsystem/aboutus.html")
 
+def signin(request):
+    return render(request,"CMsystem/signin.html")
+
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -30,3 +33,6 @@ def register(request):
 
     context={'form': form,'profile_form':profile_form }
     return render(request, 'CMsystem/register.html',context )
+
+
+

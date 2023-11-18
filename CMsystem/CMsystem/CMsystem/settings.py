@@ -41,7 +41,23 @@ INSTALLED_APPS = [
     'web_app',
     'crispy_bootstrap4',
     'crispy_forms',
+    'django.contrib.sites',
+    'allauth', # new
+    'allauth.account', # new
+    'allauth.socialaccount', #new
+    'allauth.socialaccount.providers.google', #new
+    'allauth.socialaccount.providers.github', #new
 ]
+
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE" :[
+            "profile",
+            "email"
+        ],
+        "AUTH_PARAMS": {"access_type": "online"}
+    }
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -51,6 +67,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',
 ]
 
 ROOT_URLCONF = 'CMsystem.urls'
@@ -82,7 +99,7 @@ DATABASES = {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
 
-        'NAME': 'webdata',
+        'NAME': 'webdata1',
 
         'USER': 'postgres',
 
@@ -131,11 +148,28 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 MEDIA_URL = '/img/'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
     "D:\complaintsys\Online_Complaint_Registration_and_Management_System\CMsystem\CMsystem\static",
 ]
+
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    "django.contrib.auth.backends.ModelBackend",
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    "allauth.account.auth_backends.AuthenticationBackend",
+)
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SITE_ID=9
+SOCIALACCOUNT_LOGIN_ON_GET=True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_UNIQUE_EMAIL = True
