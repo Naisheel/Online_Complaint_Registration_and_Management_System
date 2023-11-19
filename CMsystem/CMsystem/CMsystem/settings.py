@@ -148,6 +148,7 @@ USE_TZ = True
 
 STATIC_URL = "static/"
 MEDIA_URL = '/img/'
+MEDIA_ROOT = BASE_DIR / 'mediafiles'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
