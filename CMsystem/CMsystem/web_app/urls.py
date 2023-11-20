@@ -7,6 +7,7 @@ urlpatterns= [
     path('',views.index,name='index'),
     path('aboutus/',views.aboutus,name='aboutus'),
     path('signin/',auth_views.LoginView.as_view(template_name='CMsystem/signin.html'), name='signin'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='CMsystem/logout.html'), name='logout'),
     path('register/', views.register, name='register'),
     path('password-reset/',
          auth_views.PasswordResetView.as_view(
@@ -28,5 +29,4 @@ urlpatterns= [
              template_name='CMsystem/password_reset_complete.html'
          ),
          name='password_reset_complete'),
-
 ]
