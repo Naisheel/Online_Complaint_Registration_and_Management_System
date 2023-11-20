@@ -65,3 +65,20 @@ class ProfileUpdateForm(forms.ModelForm):
         # A user was found with this as a username, raise an error.
         raise forms.ValidationError('This email address is already in use.')
     
+class UserProfileUpdateform(forms.ModelForm):
+    
+    # collegename =forms.CharField(widget = forms.TextInput(attrs={'readonly':'readonly'}))
+    Branch=forms.CharField(widget = forms.TextInput(attrs={'readonly':'readonly'}))
+
+    class Meta:
+        model=Profile
+        fields=('contactnumber','Branch','profile_pic')
+
+class statusupdate(forms.ModelForm):
+    class Meta:
+        model=Complaint
+        fields=('status',)  
+        help_texts = {
+            'status': None,
+          
+        }    
