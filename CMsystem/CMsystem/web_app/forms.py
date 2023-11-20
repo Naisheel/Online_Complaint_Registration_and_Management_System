@@ -39,3 +39,28 @@ class UserProfileform(forms.ModelForm):
     class Meta:
         model=Profile 
         fields=('contact_number','Branch')
+
+
+class ProfileUpdateForm(forms.ModelForm):
+    email = forms.EmailField(widget = forms.TextInput(attrs={'readonly':'readonly'}))
+    # first_name=forms.CharField( max_length=30, required=True)
+    # last_name=forms.CharField( max_length=30, required=True)
+    class Meta:
+        model = User
+        fields = ['username','email','first_name','last_name']
+    
+    def clean_email(self):
+            # Get the email
+        username = self.cleaned_data.get('email')
+
+        # Check to see if any users already exist with this email as a username.
+        try:
+            match = User.objects.exclude(pk=self.instance.pk).get(username=username)
+            
+            
+        except User.DoesNotExist:
+            # Unable to find a user, this is fine
+            return username
+
+        # A user was found with this as a username, raise an error.
+        raise forms.ValidationError('This email address is already in use.')
