@@ -72,7 +72,7 @@ class UserProfileUpdateform(forms.ModelForm):
 
     class Meta:
         model=Profile
-        fields=('contactnumber','Branch','profile_pic')
+        fields=('contact_number','Branch','profile_pic')
 
 class statusupdate(forms.ModelForm):
     class Meta:
