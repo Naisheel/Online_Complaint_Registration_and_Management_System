@@ -34,9 +34,12 @@ urlpatterns= [
          name='password_reset_complete'),
     # forgot password url's ended
 
-    #reset password url 
+    # reset password url 
     path('password/', views.change_password, name='change_password'),
 
     # add complain path
     path('complaints/', views.complaints, name='complaints'),
+
+    # unsolved complains on user side url
+    path('list/',views.list,name='list'),
 ]

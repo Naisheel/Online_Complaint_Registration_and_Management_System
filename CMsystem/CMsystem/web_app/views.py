@@ -98,6 +98,13 @@ def complaints(request):
     context={'complaint_form':complaint_form,}
     return render(request,'CMsystem/comptotal.html',context)
 
+# list of all unsolved complains
+def list(request):
+    c=Complaint.objects.filter(user=request.user).exclude(status='1')
+    result=Complaint.objects.filter(user=request.user).exclude(Q(status='3') | Q(status='2'))
+    #c=Complaint.objects.all()
+    args={'c':c,'result':result}
+    return render(request,'CMsystem/Complaints.html',args)
 
 #get the count of all the submitted complaints,solved,unsolved.
 def counter(request):
@@ -107,4 +114,4 @@ def counter(request):
         dataset=Complaint.objects.values('Type_of_complaint').annotate(total=Count('status'),solved=Count('status', filter=Q(status='1')),
                   notsolved=Count('status', filter=Q(status='3')),inprogress=Count('status',filter=Q(status='2'))).order_by('Type_of_complaint')
         args={'total':total,'unsolved':unsolved,'solved':solved,'dataset':dataset,}
-        return render(request,"GRsystem/counter.html",args)
+        return render(request,"CMsystem/counter.html",args)
