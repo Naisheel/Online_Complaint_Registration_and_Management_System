@@ -159,6 +159,10 @@ LOGOUT_REDIRECT_URL = '/'
 LOGIN_URL = 'signin'
 LOGOUT_URL='logout'
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST='smtp.gmail.com'
+EMAIL_PORT=587
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
