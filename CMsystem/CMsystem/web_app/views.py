@@ -11,6 +11,10 @@ from .models import Profile,Complaint
 from django.db.models import Count, Q
 from django.contrib.auth.models import User
 from django.urls import reverse
+from django.http import HttpResponse
+from reportlab.pdfgen import canvas
+from datetime import datetime
+from reportlab.lib.pagesizes import A4
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -228,3 +232,70 @@ def solved(request):
         
         args={'c':c,'forms':forms,'comp':comp,'c_search':c_search}
         return render(request,'CMsystem/solved.html',args)
+
+
+#allcomplaints (supervisor) pdf viewer.
+def pdf_viewer(request):
+    detail_string={}
+    #detailname={}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=Complaint_id.pdf'
+    p = canvas.Canvas(response,pagesize=A4)
+    
+    cid=request.POST.get('cid')
+    uid=request.POST.get('uid')
+    #print(cid)
+    
+    details = Complaint.objects.filter(id=cid).values('Description')
+    name = Complaint.objects.filter(id=cid).values('user_id')
+    '''Branch = Complaint.objects.filter(id=cid).values('Branch')'''
+    Subject = Complaint.objects.filter(id=cid).values('Subject')
+    Type = Complaint.objects.filter(id=cid).values('Type_of_complaint')
+    Issuedate = Complaint.objects.filter(id=cid).values('Time')
+#     complaint_images = Complaint.objects.get(id = cid)
+#     complaint_image = complaint_images.complaint_img
+    #date_format1 = "%Y-%m-%d %H:%M:%S.%f%z"
+    for val in details:
+            detail_string=("{}".format(val['Description']))
+    for val in name:
+           detailname=("User: {}".format(val['user_id']))
+    '''for val in Branch:
+            detailbranch=("Branch: {}".format(val['Branch']))'''
+    for val in Subject:
+            detailsubject=("Subject: {}".format(val['Subject']))
+    for val in Type:
+            detailtype=("{}".format(val['Type_of_complaint']))
+            
+    for val in Issuedate:
+            ptime=("{}".format(val['Time']))
+            detailtime=("Time of Issue/ Time of Solved: {}".format(val['Time'])) 
+    #detail_string = u", ".join(("Desc={}".format(val['Description'])) for val in details) 
+    date_format = "%Y-%m-%d"
+    a = datetime.strptime(str(datetime.now().date()), date_format)
+    b = datetime.strptime(str(ptime), date_format)
+    delta = a - b
+    print(b)
+    print(a)
+    print (delta.days )       
+    if detailtype=='1':
+            detailtype="Type of Complaint: ClassRoom"
+    if detailtype=='3':
+            detailtype="Type of Complaint: Management"
+    if detailtype=='2':
+            detailtype="Type of Complaint: Teacher"
+    if detailtype=='4':
+            detailtype="Type of Complaint: School"
+    if detailtype=='5':
+            detailtype="Type of Complaint: Other"
+
+    p.drawString(25, 770,"Report:")
+    p.drawString(30, 750,detailname)
+    ''' p.drawString(30, 730,detailbranch)'''
+    p.drawString(30, 710,detailtype)
+    p.drawString(30, 690,detailtime)
+    p.drawString(30, 670,detailsubject)
+    p.drawString(30, 650,"Description:")
+    p.drawString(30, 630,detail_string)
+    p.showPage()
+    p.save()
+    return response
