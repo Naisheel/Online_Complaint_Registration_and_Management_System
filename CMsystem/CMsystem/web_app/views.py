@@ -4,6 +4,8 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import update_session_auth_hash, logout
+from django.contrib.auth.forms import PasswordChangeForm
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -54,3 +56,20 @@ def dashboard(request):
         'profile_update_form':profile_update_form,
         }
     return render(request, 'CMsystem/dashboard.html',context)
+
+# password reset by logging with the help of old password
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.add_message(request,messages.SUCCESS, f'Your password was successfully updated!')
+            return redirect('change_password')
+        else:
+            messages.add_message(request,messages.WARNING, f'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'CMsystem/change_password.html', {
+        'form': form
+    })

@@ -10,6 +10,8 @@ urlpatterns= [
     path('logout/', auth_views.LogoutView.as_view(template_name='CMsystem/logout.html'), name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
+
+    # forgot passowrd url's
     path('password-reset/',
          auth_views.PasswordResetView.as_view(
              template_name='CMsystem/password_reset.html'
@@ -30,4 +32,8 @@ urlpatterns= [
              template_name='CMsystem/password_reset_complete.html'
          ),
          name='password_reset_complete'),
+    # forgot password url's ended
+
+    #reset password url 
+    path('password/', views.change_password, name='change_password'),
 ]
