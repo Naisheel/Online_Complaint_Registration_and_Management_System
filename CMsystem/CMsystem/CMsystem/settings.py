@@ -163,6 +163,11 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST='smtp.gmail.com'
 EMAIL_PORT=587
 
+EMAIL_HOST_USER = 'complaintsys172@gmail.com'# add email address here
+EMAIL_HOST_PASSWORD = 'efxw tpuf ztym gxme'  #email password
+DEFAULT_FROM_EMAIL = 'complaintsys172@gmail.com'# add email address here
+EMAIL_USE_TLS = True
+
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
     "django.contrib.auth.backends.ModelBackend",
