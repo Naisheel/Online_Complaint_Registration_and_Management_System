@@ -54,6 +54,8 @@ urlpatterns= [
     # solved complaints in supervisor
     path('solved/', views.solved, name='solved'),
 
-    # supervisor pdf viewer
+    # supervisor complaint pdf detail viewer
     path('pdf_g/',views.pdf_viewer,name='view'),
+    # student complaint pdf detail viewer
+    path('pdf/',views.pdf_view,name='view'),
 ]

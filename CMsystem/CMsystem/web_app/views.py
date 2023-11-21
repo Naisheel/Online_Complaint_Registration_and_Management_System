@@ -299,3 +299,58 @@ def pdf_viewer(request):
     p.showPage()
     p.save()
     return response
+
+
+#complaints pdf view from student
+@login_required
+def pdf_view(request):
+    detail_string={}
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'filename=complaint_id.pdf'
+    
+    p = canvas.Canvas(response,pagesize=A4)
+    cid=request.POST.get('cid')
+    #print(cid)
+    details = Complaint.objects.filter(id=cid).values('Description')
+    name = User.objects.filter(username=request.user.username).values('username')
+    #Branch = Complaint.objects.filter(id=cid).values('Branch')
+    Subject = Complaint.objects.filter(id=cid).values('Subject')
+    Type = Complaint.objects.filter(id=cid).values('Type_of_complaint')
+    Issuedate = Complaint.objects.filter(id=cid).values('Time')
+    for val in details:
+            detail_string=("{}".format(val['Description']))
+    for val in name:
+            detailname=("User: {}".format(val['username']))
+    #for val in Branch:
+            #detailbranch=("Branch: {}".format(val['Branch']))
+    for val in Subject:
+            detailsubject=("Subject: {}".format(val['Subject']))
+    for val in Type:
+            detailtype=("{}".format(val['Type_of_complaint']))
+            
+    for val in Issuedate:
+            detailtime=("Time of Issue: {}".format(val['Time']))
+    #detail_string = u", ".join(("Desc={}".format(val['Description'])) for val in details) 
+
+    if detailtype=='1':
+            detailtype="Type of Complaint: ClassRoom"
+    if detailtype=='3':
+            detailtype="Type of Complaint: Management"
+    if detailtype=='2':
+            detailtype="Type of Complaint: Teacher"
+    if detailtype=='4':
+            detailtype="Type of Complaint: School"
+    if detailtype=='5':
+            detailtype="Type of Complaint: Other"
+
+    p.drawString(25, 770,"Report:")
+    p.drawString(30, 750,detailname)
+    #p.drawString(30, 730,detailbranch)
+    p.drawString(30, 710,detailtype)
+    p.drawString(30, 690,detailtime)
+    p.drawString(30, 670,detailsubject)
+    p.drawString(30, 650,"Description:")
+    p.drawString(30, 630,detail_string)
+    p.showPage()
+    p.save()
+    return response
