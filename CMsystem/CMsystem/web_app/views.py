@@ -78,7 +78,7 @@ def change_password(request):
         'form': form
     })
 
-
+@login_required
 def complaints(request):
   
     if request.method == 'POST':
@@ -98,6 +98,22 @@ def complaints(request):
     context={'complaint_form':complaint_form,}
     return render(request,'CMsystem/comptotal.html',context)
 
+# list of all unsolved complains
+@login_required
+def list(request):
+    c=Complaint.objects.filter(user=request.user).exclude(status='1')
+    result=Complaint.objects.filter(user=request.user).exclude(Q(status='3') | Q(status='2'))
+    #c=Complaint.objects.all()
+    args={'c':c,'result':result}
+    return render(request,'CMsystem/Complaints.html',args)
+
+#function to get all solved complaints
+@login_required
+def slist(request):
+    result=Complaint.objects.filter(user=request.user).exclude(Q(status='3') | Q(status='2'))
+    #c=Complaint.objects.all()
+    args={'result':result}
+    return render(request,'CMsystem/solvedcomplaint.html',args)
 
 #get the count of all the submitted complaints,solved,unsolved.
 def counter(request):
@@ -107,4 +123,12 @@ def counter(request):
         dataset=Complaint.objects.values('Type_of_complaint').annotate(total=Count('status'),solved=Count('status', filter=Q(status='1')),
                   notsolved=Count('status', filter=Q(status='3')),inprogress=Count('status',filter=Q(status='2'))).order_by('Type_of_complaint')
         args={'total':total,'unsolved':unsolved,'solved':solved,'dataset':dataset,}
-        return render(request,"GRsystem/counter.html",args)
+        return render(request,"CMsystem/counter.html",args)
+
+
+@login_required
+def login_redirect(request):
+    if request.user.profile.type_user == 'student':
+        return HttpResponseRedirect('/dashboard/')
+    else :
+        return HttpResponseRedirect('/counter/')

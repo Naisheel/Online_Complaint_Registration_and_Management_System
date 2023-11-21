@@ -10,7 +10,7 @@ urlpatterns= [
     path('logout/', auth_views.LogoutView.as_view(template_name='CMsystem/logout.html'), name='logout'),
     path('dashboard/', views.dashboard, name='dashboard'),
     path('register/', views.register, name='register'),
-
+    path('counter/', views.counter, name='counter'),
     # forgot passowrd url's
     path('password-reset/',
          auth_views.PasswordResetView.as_view(
@@ -34,9 +34,17 @@ urlpatterns= [
          name='password_reset_complete'),
     # forgot password url's ended
 
-    #reset password url 
+    # reset password url 
     path('password/', views.change_password, name='change_password'),
 
     # add complain path
     path('complaints/', views.complaints, name='complaints'),
+
+    # unsolved complains on user side url
+    path('list/',views.list,name='list'),
+
+    #solved complaints urls 
+    path('slist/',views.slist,),
+    
+    path('login_redirect/',views.login_redirect,name='login_redirect'),
 ]

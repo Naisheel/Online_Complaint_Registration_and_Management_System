@@ -154,7 +154,10 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/login_redirect/'
+LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'signin'
+LOGOUT_URL='logout'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
