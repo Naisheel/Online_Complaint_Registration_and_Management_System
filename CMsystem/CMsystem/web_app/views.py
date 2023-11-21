@@ -132,3 +132,21 @@ def login_redirect(request):
         return HttpResponseRedirect('/dashboard/')
     else :
         return HttpResponseRedirect('/counter/')
+    
+#changepassword for supervisor.
+def change_password_g(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.add_message(request,messages.SUCCESS, f'Your password was successfully updated!')
+            return redirect('change_password_g')
+        else:
+            messages.add_message(request,messages.WARNING, f'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'CMsystem/change_password_g.html', {
+        'form': form
+    })
+    return render(request,"CMsystem/change_password_g.html")

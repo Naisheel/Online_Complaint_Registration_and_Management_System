@@ -47,4 +47,6 @@ urlpatterns= [
     path('slist/',views.slist,),
     
     path('login_redirect/',views.login_redirect,name='login_redirect'),
+
+    path('passwords/', views.change_password_g, name='change_password_g')
 ]
