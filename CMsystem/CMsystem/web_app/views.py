@@ -3,6 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -33,7 +34,7 @@ def register(request):
     return render(request, 'CMsystem/register.html',context )
 
 
-
+@login_required
 def dashboard(request):       
     if request.method == 'POST':
         p_form=ProfileUpdateForm(request.POST,instance=request.user)
