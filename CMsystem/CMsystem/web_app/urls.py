@@ -51,6 +51,6 @@ urlpatterns= [
     path('passwords/', views.change_password_g, name='change_password_g'),
     # all complaints in supervisor
     path('allcomplaints/', views.allcomplaints, name='allcomplaints'),
-
-    
+    # solved complaints in supervisor
+    path('solved/', views.solved, name='solved'),
 ]

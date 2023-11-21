@@ -194,3 +194,37 @@ def allcomplaints(request):
                 forms=statusupdate()
                 args={'c':c,'forms':forms,'c_search':c_search,'drop1':drop1,'drop2':drop2,'comp':comp}
                 return render(request,'CMsystem/AllComplaints.html',args)
+
+
+@login_required
+def solved(request):
+        if request.method=='POST':
+                cid=request.POST.get('cid2')
+                print(cid)
+                project = Complaint.objects.get(id=cid)
+                forms=statusupdate(request.POST,instance=project)
+                if forms.is_valid():
+                        obj=forms.save(commit=False)
+                        obj.save()
+                        messages.add_message(request,messages.SUCCESS, f'Complaint Updated!!!')
+                        return HttpResponseRedirect(reverse('solved'))
+                else:
+                        return render(request,'CMsystem/solved.html')
+                 #testing
+
+        else:
+                cid=request.POST.get('cid2')
+                c=Complaint.objects.all().exclude(Q(status='3') | Q(status='2'))
+                c_search=Complaint.objects.all().exclude(Q(status='3') | Q(status='2'))
+                comp=request.GET.get("search")
+                drop=request.GET.get("drop")
+
+                if drop:
+                        c=c.filter(Q(Type_of_complaint__icontains=drop))
+                if comp:
+                        c_search=c_search.filter(Q(Subject__icontains=comp))
+
+                forms=statusupdate()
+        
+        args={'c':c,'forms':forms,'comp':comp,'c_search':c_search}
+        return render(request,'CMsystem/solved.html',args)
