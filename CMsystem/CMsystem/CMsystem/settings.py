@@ -152,10 +152,7 @@ STATIC_ROOT= os.path.join(BASE_DIR,'static/')
 MEDIA_URL = '/img/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-# STATICFILES_DIRS = [
-#     BASE_DIR / "static",
-#     "D:\complaintsys\Online_Complaint_Registration_and_Management_System\CMsystem\CMsystem\static",
-# ]
+LOGIN_REDIRECT_URL = '/'
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
