@@ -3,8 +3,6 @@ from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from .forms import UserRegisterForm,UserProfileform
-
-
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
