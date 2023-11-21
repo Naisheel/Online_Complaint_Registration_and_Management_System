@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -31,7 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-
+    'adminlte3',
+    'adminlte3_theme',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -147,13 +148,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = "static/"
+STATIC_ROOT= os.path.join(BASE_DIR,'static/')
 MEDIA_URL = '/img/'
 MEDIA_ROOT = BASE_DIR / 'mediafiles'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
-STATICFILES_DIRS = [
-    BASE_DIR / "static",
-    "D:\complaintsys\Online_Complaint_Registration_and_Management_System\CMsystem\CMsystem\static",
-]
+# STATICFILES_DIRS = [
+#     BASE_DIR / "static",
+#     "D:\complaintsys\Online_Complaint_Registration_and_Management_System\CMsystem\CMsystem\static",
+# ]
 
 AUTHENTICATION_BACKENDS = (
     # Needed to login by username in Django admin, regardless of `allauth`
