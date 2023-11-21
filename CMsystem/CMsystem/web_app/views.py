@@ -2,13 +2,15 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm,ComplaintForm
+from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm,ComplaintForm,statusupdate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import send_mail
 from .models import Profile,Complaint
 from django.db.models import Count, Q
+from django.contrib.auth.models import User
+from django.urls import reverse
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -150,3 +152,45 @@ def change_password_g(request):
         'form': form
     })
     return render(request,"CMsystem/change_password_g.html")
+
+@login_required
+def allcomplaints(request):
+        if request.method=='POST':
+                cid=request.POST.get('cid2')
+                uid=request.POST.get('uid')
+                print(uid)
+                project = Complaint.objects.get(id=cid)
+                forms=statusupdate(request.POST,instance=project)
+                if forms.is_valid():
+                        obj=forms.save(commit=False)
+                        mail = User.objects.filter(id=uid)
+                        for i in mail:
+                                m=i.email
+                       
+                        print(m)
+                        send_mail('Hi, Complaint has been Resolved ', 'Thanks for letting us know of your concern, Hope we have solved your issue. Dont Reply to this mail', 'testerpython13@gmail.com', [m],fail_silently=False)
+                        obj.save()
+                        messages.add_message(request,messages.SUCCESS, f'Complaint Updated!!!')
+                        return HttpResponseRedirect(reverse('allcomplaints'))
+                else:
+                        return render(request,'CMsystem/AllComplaints.html')
+                 #testing
+
+        else:
+                c=Complaint.objects.all().exclude(status='1')
+                c_search = Complaint.objects.all().exclude(status='1')
+                comp=request.GET.get("search")
+                drop1=request.GET.get("drop1")
+                drop2=request.GET.get("drop2")
+                sort = request.GET.get("sort")
+                if drop1:
+                        c = c.filter(Q(Type_of_complaint__icontains=drop1))
+
+                if drop2:
+                        c = c.filter(Q(status__icontains=drop2))     
+                if comp:
+                        c_search=c_search.filter(Q(Subject__icontains=comp))
+
+                forms=statusupdate()
+                args={'c':c,'forms':forms,'c_search':c_search,'drop1':drop1,'drop2':drop2,'comp':comp}
+                return render(request,'CMsystem/AllComplaints.html',args)

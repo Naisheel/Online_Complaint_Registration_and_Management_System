@@ -48,5 +48,9 @@ urlpatterns= [
     
     path('login_redirect/',views.login_redirect,name='login_redirect'),
 
-    path('passwords/', views.change_password_g, name='change_password_g')
+    path('passwords/', views.change_password_g, name='change_password_g'),
+    # all complaints in supervisor
+    path('allcomplaints/', views.allcomplaints, name='allcomplaints'),
+
+    
 ]
