@@ -513,7 +513,7 @@
 					<li class="nav-item">
 						<a class="nav-link" href="/logout/">Logout</a>
 					</li>
-					{% elif user.is_authenticated and user.profile.type_user == 'grievance' %}
+					{% elif user.is_authenticated and user.profile.type_user == 'supervisor' %}
 					<li class="nav-item">
 						<a class="nav-link" href="/allcomplaints/"><span class="fi-account-login"></span>Profile</a>
 					</li>
