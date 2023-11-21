@@ -78,7 +78,7 @@ def change_password(request):
         'form': form
     })
 
-
+@login_required
 def complaints(request):
   
     if request.method == 'POST':
@@ -99,6 +99,7 @@ def complaints(request):
     return render(request,'CMsystem/comptotal.html',context)
 
 # list of all unsolved complains
+@login_required
 def list(request):
     c=Complaint.objects.filter(user=request.user).exclude(status='1')
     result=Complaint.objects.filter(user=request.user).exclude(Q(status='3') | Q(status='2'))
