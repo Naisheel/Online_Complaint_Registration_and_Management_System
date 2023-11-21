@@ -7,6 +7,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.mail import send_mail
+from .models import Profile,Complaint
+from django.db.models import Count, Q
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -95,3 +97,14 @@ def complaints(request):
         complaint_form=ComplaintForm(request.POST)
     context={'complaint_form':complaint_form,}
     return render(request,'CMsystem/comptotal.html',context)
+
+
+#get the count of all the submitted complaints,solved,unsolved.
+def counter(request):
+        total=Complaint.objects.all().count()
+        unsolved=Complaint.objects.all().exclude(status='1').count()
+        solved=Complaint.objects.all().exclude(Q(status='3') | Q(status='2')).count()
+        dataset=Complaint.objects.values('Type_of_complaint').annotate(total=Count('status'),solved=Count('status', filter=Q(status='1')),
+                  notsolved=Count('status', filter=Q(status='3')),inprogress=Count('status',filter=Q(status='2'))).order_by('Type_of_complaint')
+        args={'total':total,'unsolved':unsolved,'solved':solved,'dataset':dataset,}
+        return render(request,"GRsystem/counter.html",args)
