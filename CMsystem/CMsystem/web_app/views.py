@@ -2,10 +2,11 @@ from django.shortcuts import redirect, render
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
-from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm
+from .forms import UserRegisterForm,UserProfileform,UserProfileUpdateform,ProfileUpdateForm,ComplaintForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash, logout
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.mail import send_mail
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -74,3 +75,23 @@ def change_password(request):
     return render(request, 'CMsystem/change_password.html', {
         'form': form
     })
+
+
+def complaints(request):
+  
+    if request.method == 'POST':
+        complaint_form=ComplaintForm(request.POST)
+        if complaint_form.is_valid():
+               instance=complaint_form.save(commit=False)
+               instance.user=request.user
+               mail=request.user.email
+               print(mail)
+               send_mail('Hi Complaint has been Received', 'Thank you for letting us know of your concern, Have a Cookie while we explore into this matter.  Dont Reply to this mail', 'testerpython13@gmail.com', [mail],fail_silently=False)
+               instance.save()
+               
+               messages.add_message(request,messages.SUCCESS, f'Complaint Registered!!!')
+               return render(request,'CMsystem/comptotal.html',)
+    else:
+        complaint_form=ComplaintForm(request.POST)
+    context={'complaint_form':complaint_form,}
+    return render(request,'CMsystem/comptotal.html',context)

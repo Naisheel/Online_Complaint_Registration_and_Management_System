@@ -36,4 +36,7 @@ urlpatterns= [
 
     #reset password url 
     path('password/', views.change_password, name='change_password'),
+
+    # add complain path
+    path('complaints/', views.complaints, name='complaints'),
 ]

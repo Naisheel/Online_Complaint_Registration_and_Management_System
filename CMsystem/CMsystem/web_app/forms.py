@@ -82,3 +82,8 @@ class statusupdate(forms.ModelForm):
             'status': None,
           
         }    
+
+class ComplaintForm(forms.ModelForm):
+    class Meta:
+        model=Complaint
+        fields=('Subject','Type_of_complaint','Description')
