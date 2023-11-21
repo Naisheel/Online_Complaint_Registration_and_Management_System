@@ -46,4 +46,5 @@ urlpatterns= [
     #solved complaints urls 
     path('slist/',views.slist,),
     
+    path('login_redirect/',views.login_redirect,name='login_redirect'),
 ]

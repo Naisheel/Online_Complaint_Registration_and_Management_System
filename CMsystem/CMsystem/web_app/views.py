@@ -124,3 +124,11 @@ def counter(request):
                   notsolved=Count('status', filter=Q(status='3')),inprogress=Count('status',filter=Q(status='2'))).order_by('Type_of_complaint')
         args={'total':total,'unsolved':unsolved,'solved':solved,'dataset':dataset,}
         return render(request,"CMsystem/counter.html",args)
+
+
+@login_required
+def login_redirect(request):
+    if request.user.profile.type_user == 'student':
+        return HttpResponseRedirect('/dashboard/')
+    else :
+        return HttpResponseRedirect('/counter/')
