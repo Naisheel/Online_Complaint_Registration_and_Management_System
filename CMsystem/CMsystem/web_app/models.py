@@ -52,9 +52,3 @@ class Complaint(models.Model):
     def __str__(self):
      	return self.get_Type_of_complaint_display()
     
-
-class Supervisor(models.Model):
-    guser=models.OneToOneField(User,on_delete=models.CASCADE,default=None)
-
-    def _str_(self):
-        return self.guser
