@@ -42,4 +42,8 @@ urlpatterns= [
 
     # unsolved complains on user side url
     path('list/',views.list,name='list'),
+
+    #solved complaints urls 
+    path('slist/',views.slist,),
+    
 ]

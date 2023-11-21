@@ -107,6 +107,14 @@ def list(request):
     args={'c':c,'result':result}
     return render(request,'CMsystem/Complaints.html',args)
 
+#function to get all solved complaints
+@login_required
+def slist(request):
+    result=Complaint.objects.filter(user=request.user).exclude(Q(status='3') | Q(status='2'))
+    #c=Complaint.objects.all()
+    args={'result':result}
+    return render(request,'CMsystem/solvedcomplaint.html',args)
+
 #get the count of all the submitted complaints,solved,unsolved.
 def counter(request):
         total=Complaint.objects.all().count()
