@@ -58,6 +58,7 @@ def dashboard(request):
     return render(request, 'CMsystem/dashboard.html',context)
 
 # password reset by logging with the help of old password
+@login_required
 def change_password(request):
     if request.method == 'POST':
         form = PasswordChangeForm(request.user, request.POST)
