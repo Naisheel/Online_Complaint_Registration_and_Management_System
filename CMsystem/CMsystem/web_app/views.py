@@ -230,7 +230,7 @@ def solved(request):
 
                 forms=statusupdate()
         
-        args={'c':c,'forms':forms,'comp':comp,'c_search':c_search}
+        args={'c':c,'forms':forms,'comp':comp,'c_search':c_search,'drop':drop}
         return render(request,'CMsystem/solved.html',args)
 
 
