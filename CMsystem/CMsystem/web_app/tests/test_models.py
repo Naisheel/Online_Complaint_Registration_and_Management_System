@@ -53,3 +53,21 @@ class ComplaintModelTest(TestCase):
         # Retrieve the complaint from the database and check if the status is updated
         updated_complaint = Complaint.objects.get(pk=self.complaint.pk)
         self.assertEqual(updated_complaint.status, 1)  # 1 represents 'Solved'
+
+    def test_complaint_signal_handler(self):
+        # Test signal handling when a new User is created
+        new_user = User.objects.create_user(username='newuser', password='newpassword')
+        self.assertIsNotNone(Profile.objects.get(user=new_user))
+
+    def test_complaint_description_length(self):
+        # Test maximum length of the complaint description
+        long_description = 'a' * 4001
+        complaint = Complaint(
+            Subject='Test Subject',
+            user=self.user,
+            Type_of_complaint='Cafeteria',
+            Description=long_description,
+            status=3
+        )
+        with self.assertRaises(ValueError):
+            complaint.full_clean()
