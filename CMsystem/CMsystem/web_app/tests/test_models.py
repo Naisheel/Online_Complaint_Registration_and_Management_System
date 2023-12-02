@@ -71,3 +71,27 @@ class ComplaintModelTest(TestCase):
         )
         with self.assertRaises(ValueError):
             complaint.full_clean()
+
+    def test_complaint_invalid_status(self):
+        # Test setting an invalid status for a complaint
+        invalid_status_complaint = Complaint(
+            Subject='Test Subject',
+            user=self.user,
+            Type_of_complaint='Cafeteria',
+            Description='Test Description',
+            status=4  # Invalid status code
+        )
+        with self.assertRaises(ValueError):
+            invalid_status_complaint.full_clean()
+
+    def test_complaint_time_auto_now(self):
+        # Test if Time field is set to the current date and time automatically
+        complaint = Complaint(
+            Subject='Test Subject',
+            user=self.user,
+            Type_of_complaint='Cafeteria',
+            Description='Test Description',
+            status=3
+        )
+        complaint.save()
+        self.assertIsNotNone(complaint.Time)
