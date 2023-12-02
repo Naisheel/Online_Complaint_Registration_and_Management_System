@@ -18,6 +18,17 @@ class ProfileModelTest(TestCase):
     def test_profile_creation(self):
         self.assertTrue(isinstance(self.profile, Profile))
         self.assertEqual(str(self.profile), self.user.username)
+    
+    def test_profile_validation(self):
+        # Test phone number validation
+        invalid_profile = Profile(
+            user=self.user,
+            contact_number='invalid_number',
+            type_user='student',
+            Branch='ICT'
+        )
+        with self.assertRaises(ValueError):
+            invalid_profile.full_clean()
 
 class ComplaintModelTest(TestCase):
     def setUp(self):
