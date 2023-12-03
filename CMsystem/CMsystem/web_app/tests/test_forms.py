@@ -73,3 +73,24 @@ class ProfileUpdateFormTest(TestCase):
         form = ProfileUpdateForm(instance=self.user, data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('This email address is already in use.', form.errors['email'])
+
+class UserProfileUpdateformTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user(username='existinguser', email='existinguser@example.com', password='password123')
+
+    def test_valid_user_profile_update_form(self):
+        form_data = {
+            'contact_number': '9876543210',
+            'Branch': 'ICT',
+        }
+        form = UserProfileUpdateform(instance=self.user.profile, data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_user_profile_update_form_empty_contact_number(self):
+        form_data = {
+            'contact_number': '',  # Empty contact number
+            'Branch': 'ICT',
+        }
+        form = UserProfileUpdateform(instance=self.user.profile, data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('This field is required.', form.errors['contact_number'])
