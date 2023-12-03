@@ -30,3 +30,21 @@ class UserRegisterFormTest(TestCase):
         form = UserRegisterForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('This email address is already in use.', form.errors['email'])
+
+class UserProfileformTest(TestCase):
+    def test_valid_user_profile_form(self):
+        form_data = {
+            'contact_number': '1234567890',
+            'Branch': 'ICT',
+        }
+        form = UserProfileform(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_user_profile_form_empty_contact_number(self):
+        form_data = {
+            'contact_number': '',  # Empty contact number
+            'Branch': 'ICT',
+        }
+        form = UserProfileform(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('This field is required.', form.errors['contact_number'])
