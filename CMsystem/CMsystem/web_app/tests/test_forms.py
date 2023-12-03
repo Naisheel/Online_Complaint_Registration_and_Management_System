@@ -94,3 +94,28 @@ class UserProfileUpdateformTest(TestCase):
         form = UserProfileUpdateform(instance=self.user.profile, data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('This field is required.', form.errors['contact_number'])
+
+class statusupdateTest(TestCase):
+    def setUp(self):
+        self.complaint = Complaint.objects.create(
+            Subject='Test Subject',
+            user=User.objects.create_user(username='testuser', password='testpassword'),
+            Type_of_complaint='Cafeteria',
+            Description='Test Description',
+            status=3
+        )
+
+    def test_valid_status_update_form(self):
+        form_data = {
+            'status': 1,  # Solved
+        }
+        form = statusupdate(instance=self.complaint, data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_status_update_form_invalid_status(self):
+        form_data = {
+            'status': 4,  # Invalid status code
+        }
+        form = statusupdate(instance=self.complaint, data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('Select a valid choice.', form.errors['status'])
