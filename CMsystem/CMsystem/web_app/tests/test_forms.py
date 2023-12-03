@@ -119,3 +119,33 @@ class statusupdateTest(TestCase):
         form = statusupdate(instance=self.complaint, data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn('Select a valid choice.', form.errors['status'])
+
+class ComplaintFormTest(TestCase):
+    def test_valid_complaint_form(self):
+        form_data = {
+            'Subject': 'Valid Subject',
+            'Type_of_complaint': 'Cafeteria',
+            'Description': 'Valid Description',
+        }
+        form = ComplaintForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_invalid_complaint_form_empty_subject(self):
+        form_data = {
+            'Subject': '',  # Empty subject
+            'Type_of_complaint': 'Cafeteria',
+            'Description': 'Valid Description',
+        }
+        form = ComplaintForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('This field is required.', form.errors['Subject'])
+
+    def test_invalid_complaint_form_long_description(self):
+        form_data = {
+            'Subject': 'Valid Subject',
+            'Type_of_complaint': 'Cafeteria',
+            'Description': 'a' * 4001,  # Exceeds maximum length
+        }
+        form = ComplaintForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        self.assertIn('Ensure this value has at most 4000 characters (it has 4001).', form.errors['Description'])
