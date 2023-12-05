@@ -191,6 +191,14 @@
 		}
 
 		@media only screen and (max-width: 800px) {
+			.abbrclass[data-abbr]::after {
+				content: attr(data-abbr);
+			}
+
+			.abbrclass>span {
+				display: none;
+			}
+
 			footer {
 				flex-direction: column;
 			}
@@ -412,6 +420,14 @@
 		}
 
 		@media only screen and (max-width: 800px) {
+			.abbrclass[data-abbr]::after {
+				content: attr(data-abbr);
+			}
+
+			.abbrclass>span {
+				display: none;
+			}
+
 			footer {
 				flex-direction: column;
 			}
@@ -508,7 +524,9 @@
 <body>
 	<nav class="navbar navbar-dark navbar-expand-lg px-5">
 		<div class="container-fluid">
-			<a class="navbar-brand text-light fw-bolder fs-4" href="/">Complaint Management System</a>
+			<a class="navbar-brand text-light fw-bolder fs-4 abbrclass" data-abbr="CMSystem" href="/"><span>Complaint
+					Management
+					System</span></a>
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
 				aria-label="Toggle navigation">
