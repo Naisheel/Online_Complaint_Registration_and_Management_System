@@ -15,6 +15,7 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from datetime import datetime
 from reportlab.lib.pagesizes import A4
+from .forms import CustomPasswordChangeForm  # Import your custom form
 # Create your views here.
 def index(request):
     return render(request,"CMsystem/home.html")
@@ -70,20 +71,17 @@ def dashboard(request):
 @login_required
 def change_password(request):
     if request.method == 'POST':
-        form = PasswordChangeForm(request.user, request.POST)
+        form = CustomPasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)  # Important!
-            messages.add_message(request,messages.SUCCESS, f'Your password was successfully updated!')
+            messages.add_message(request, messages.SUCCESS, 'Your password was successfully updated!')
             return redirect('change_password')
         else:
-            messages.add_message(request,messages.WARNING, f'Please correct the error below.')
+            messages.add_message(request, messages.WARNING, 'Please correct the error below.')
     else:
-        form = PasswordChangeForm(request.user)
-    return render(request, 'CMsystem/change_password.html', {
-        'form': form
-    })
-
+        form = CustomPasswordChangeForm(request.user)
+    return render(request, 'CMsystem/change_password.html', {'form': form})
 @login_required
 def complaints(request):
   
@@ -354,3 +352,5 @@ def pdf_view(request):
     p.showPage()
     p.save()
     return response
+
+
